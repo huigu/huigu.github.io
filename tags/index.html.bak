@@ -1,7 +1,5 @@
 
 
-  
-
 
 
 
@@ -20,7 +18,7 @@
   
     <meta name="description" content="小红花的随时记录成长">
   
-  <title>归档 [ 烟斗上的小红花 ]</title>
+  <title>tags [ 烟斗上的小红花 ]</title>
   
   
     <link rel="shortcut icon" href="/favicon.ico">
@@ -64,14 +62,14 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/archives">博文</a>
             
           </li>
         
           
-            <li>
+            <li class="active">
           
             <a href="/tags">标签</a>
             
@@ -110,70 +108,28 @@
     <div id="content-inner">
       
       
-  <article>
-    
-
-  <div id="recent-posts">
-    <h1>归档
-    
-      <span class="posts-count">
-      共
-      1
-      
-        文章
-      
-      </span>
-    
-    </h1>
+  <article id="page">
     
     
-      
-      
-        
+      <h1 class="">tags</h1>
       
       
     
-    
-    
-      
-      
-        
-        <h3 class="archive-year-title">2018
-        
-          <span class="posts-count">
-          共
-          1
-          
-            文章
-          
-          </span>
-        
-        </h3>
-      
-      <div class="post-title-item">
-  
-  <a href="/2018/10/08/hello-world/">
-  
-    Hello World
-  
-  </a>
-  <p class="page-title-sub">
-    <span id = "post-title-date">10-8</span>
-    
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-    
-  </div>
-
-
   </article>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       
@@ -219,7 +175,7 @@
     <li>
       <a href="https://www.baidu.com">
         
-          QQ
+          Twitter
         
       </a>
     </li>
