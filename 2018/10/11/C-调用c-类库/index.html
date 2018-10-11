@@ -16,10 +16,9 @@
   
   
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Qu...">
+    <meta name="description" content="C#生成类库1234567891011121314151617181920using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;namespace TestClass&#123;    public class Class1 ...">
   
-  <title>Hello World [ 烟斗上的小红花 ]</title>
+  <title>C++调用c#类库 [ 烟斗上的小红花 ]</title>
   
   
     <link rel="shortcut icon" href="/favicon.ico">
@@ -38,13 +37,22 @@ Qu...">
 <body>
 <div class="side-navigate hide-area">
   
-  
-    <div class="item next">
-      <a href="/2018/10/11/C-调用c-类库/">
+    <div class="item prev">
+      <a href="/2018/10/11/hello-world/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        C++调用c#类库
+        Hello World
+      </div>
+    </div>
+  
+  
+    <div class="item next">
+      <a href="/2018/10/11/如何修改hexo主题字体/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        如何修改hexo主题字体
       </div>
     </div>
   
@@ -119,7 +127,7 @@ Qu...">
       
       
   <article id="post">
-    <h1>Hello World</h1>
+    <h1>C++调用c#类库</h1>
     <p class="page-title-sub">
       <span id = "post-title-date">撰写于 2018-10-11</span>
       
@@ -144,19 +152,20 @@ Qu...">
         
         <a href="/tags/C/">C++</a>
       
+        
+          /
+        
+        
+        <a href="/tags/C/">C#</a>
+      
       </span>
       
     </p>
     
-    <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+    <h2 id="C-生成类库"><a href="#C-生成类库" class="headerlink" title="C#生成类库"></a>C#生成类库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace TestClass</span><br><span class="line">&#123;</span><br><span class="line">    public class Class1</span><br><span class="line">    &#123;</span><br><span class="line">        public int Design(int a)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> a + 2;</span><br><span class="line">        &#125;</span><br><span class="line">        public string Run(string str)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> str + <span class="string">"Run"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="C-属性设置"><a href="#C-属性设置" class="headerlink" title="C++属性设置"></a>C++属性设置</h2><p>.Net框架需要和c#类库匹配<br><img src="/images/c++属性设置.png" alt=""></p>
+<h2 id="C-调用"><a href="#C-调用" class="headerlink" title="C++ 调用"></a>C++ 调用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#using "C:\Users\huigu\source\repos\cPlusSer\TestClass\bin\Debug\TestClass.dll"</span></span><br><span class="line">using namespace TestClass;</span><br><span class="line">using namespace std;</span><br><span class="line">using namespace System;</span><br><span class="line">using namespace System::Runtime::InteropServices;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	TestClass::Class1 cla1;</span><br><span class="line">	int a = cla1.Design(3);</span><br><span class="line">	System::String^ b = cla1.Run(<span class="string">"str"</span>);</span><br><span class="line">	using namespace Runtime::InteropServices;</span><br><span class="line">	const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(b)).ToPointer();</span><br><span class="line">	std::string cliToStd = chars;</span><br><span class="line">	cout&lt;&lt;a&lt;&lt;endl;</span><br><span class="line">	cout&lt;&lt;cliToStd&lt;&lt;endl;</span><br><span class="line">		<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结果显示"><a href="#结果显示" class="headerlink" title="结果显示"></a>结果显示</h2><p><img src="/images/c++调用C#结果显示.png" alt=""></p>
 
   </article>
   <div class="random-toc-area">
@@ -164,18 +173,20 @@ Qu...">
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-生成类库"><span class="toc-text">C#生成类库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-属性设置"><span class="toc-text">C++属性设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-调用"><span class="toc-text">C++ 调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果显示"><span class="toc-text">结果显示</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-
+    <a href="/2018/10/11/hello-world/" class="prev">&larr; 上一篇 Hello World</a>
   
 
   
-    <a href="/2018/10/11/C-调用c-类库/" class="next">下一篇 C++调用c#类库 &rarr;</a>
+
+  
+    <a href="/2018/10/11/如何修改hexo主题字体/" class="next">下一篇 如何修改hexo主题字体 &rarr;</a>
   
 </nav>
 
