@@ -14,8 +14,7 @@ codeLineHeight = 22px
 body
   background-color: #34495E;
   margin: 0px;
-  font-family: '方正黄草_GBK','Microsoft YaHei',Lato, "Microsoft Jhenghei", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  src: url('css/iconfont/4089_方正黄草_GBK.ttf');
+  font-family: Lato, "Microsoft Jhenghei", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   font-size: 18px;
   @media (max-width: mdDesktopWidth)
     font-size: 16px;
