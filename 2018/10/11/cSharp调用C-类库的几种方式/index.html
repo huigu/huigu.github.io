@@ -1,0 +1,419 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Bruce">
+  
+  
+  
+  
+    <meta name="description" content="转载于 “广阔之海”
+直接调用C++类库中的公共方法使用DllImport特性对方法进行调用，比如一个C++类库SampleCppWrapper.dll中的公共方法：1extern "C" __declspec(dllexport) int __stdcall Add(int n1, int n2);
+__stdcall表示调用约定：参数都是从右向左通过堆栈传递， 函数调用在返回前要由被调用...">
+  
+  <title>cSharp调用C++类库的几种方式 [ 烟斗上的小红花 ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2018/10/11/hello-world/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Hello World
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="/head.jpg"/>
+          <div id="homelink">烟斗上的小红花</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="https://huigu.github.io">主页</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">博文</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">标签</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">分类</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">关于</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/huigu">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>cSharp调用C++类库的几种方式</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2018-10-11</span>
+      
+        <span id = "post-title-updated">修改于 2018-10-11</span>
+      
+      
+      <span id = "post-title-categories">分类
+      
+      
+        
+        
+        <a href="/categories/编程/">编程</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      标签
+      
+      
+        
+        
+        <a href="/tags/C/">C++</a>
+      
+        
+          /
+        
+        
+        <a href="/tags/C/">C#</a>
+      
+      </span>
+      
+    </p>
+    
+    <p>转载于 <a href="https://www.cnblogs.com/lgyup/p/7116162.html" target="_blank" rel="noopener">“广阔之海”</a></p>
+<h2 id="直接调用C-类库中的公共方法"><a href="#直接调用C-类库中的公共方法" class="headerlink" title="直接调用C++类库中的公共方法"></a>直接调用C++类库中的公共方法</h2><p>使用DllImport特性对方法进行调用，比如一个C++类库SampleCppWrapper.dll中的公共方法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extern <span class="string">"C"</span> __declspec(dllexport) int __stdcall Add(int n1, int n2);</span><br></pre></td></tr></table></figure></p>
+<p>__stdcall表示调用约定：参数都是从右向左通过堆栈传递， 函数调用在返回前要由被调用者清理堆栈。<br>在C#中，调用如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[DllImport(<span class="string">"SampleCppWrapper.dll"</span>)]</span><br><span class="line">private static extern int Add(int n1, int n2);</span><br></pre></td></tr></table></figure></p>
+<p>注意参数的类型，之后，可直接在C#编程中使用这个方法。</p>
+<h2 id="调用C-类库中的类的方法"><a href="#调用C-类库中的类的方法" class="headerlink" title="调用C++类库中的类的方法"></a>调用C++类库中的类的方法</h2><p>C#不能直接调用C++类库中的类，需要一种变通的解决方式，通过再做一个C++类库把要调用的类成员方法暴露出来，比如下面这个C++类：<br>SampleCppClass.h<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pragma once</span></span><br><span class="line"></span><br><span class="line">class __declspec(dllexport) SampleCppClass</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    SampleCppClass(void);</span><br><span class="line">    ~SampleCppClass(void);</span><br><span class="line">    </span><br><span class="line">    int Add(int n1, int n2);</span><br><span class="line">    int Sub(int n1, int n2);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>SampleCppClass.cpp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include "SampleCppClass.h"</span></span><br><span class="line"></span><br><span class="line">SampleCppClass::SampleCppClass(void)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SampleCppClass::~SampleCppClass(void)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int SampleCppClass::Add(int n1, int n2)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> n1 + n2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int SampleCppClass::Sub(int n1, int n2)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> n1 - n2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们要调用SampleCppClass中的Add和Sub两个方法，所以我们再写一个C++类库，通过公共方法间接调用类成员方法：<br>SampleCppWrapper.h<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pragma once</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include "..\SampleCppClass\SampleCppClass.h"</span></span><br><span class="line"></span><br><span class="line">namespace SampleCppWrapper</span><br><span class="line">&#123;</span><br><span class="line">    extern <span class="string">"C"</span> __declspec(dllexport) int __stdcall Add(int n1, int n2);</span><br><span class="line">    extern <span class="string">"C"</span> __declspec(dllexport) int __stdcall Sub(int n1, int n2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>SampleCppWrapper.cpp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include "SampleCppWrapper.h"</span></span><br><span class="line"></span><br><span class="line">namespace SampleCppWrapper</span><br><span class="line">&#123;</span><br><span class="line">    SampleCppClass* g_pObj = new SampleCppClass();</span><br><span class="line"></span><br><span class="line">    int __stdcall Add(int n1, int n2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">return</span> g_pObj-&gt;Add(n1, n2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int __stdcall Sub(int n1, int n2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">return</span> g_pObj-&gt;Sub(n1, n2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在C#中，再调用SampleCppWrapper.dll中的公共方法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[DllImport(<span class="string">"SampleCppWrapper.dll"</span>)]</span><br><span class="line">private static extern int Add(int n1, int n2);</span><br><span class="line">[DllImport(<span class="string">"SampleCppWrapper.dll"</span>)]</span><br><span class="line">private static extern int Sub(int n1, int n2);</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用C-类库中的回调函数"><a href="#使用C-类库中的回调函数" class="headerlink" title="使用C++类库中的回调函数"></a>使用C++类库中的回调函数</h2><p>C++的回调函数是一种事件响应机制，和C#的委托相似，比如一个C++类中的回调函数：<br>SampleCppClass.h<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pragma once</span></span><br><span class="line"></span><br><span class="line">typedef void (*LoopCallback)(void* pContext);</span><br><span class="line"></span><br><span class="line">class __declspec(dllexport) SampleCppClass</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    SampleCppClass(void);</span><br><span class="line">    ~SampleCppClass(void);</span><br><span class="line">    </span><br><span class="line">    void SetCallbackFunc(LoopCallback callback);</span><br><span class="line">    void SetCallbackContext(void* pContext);</span><br><span class="line">    void Loop();</span><br><span class="line">private:</span><br><span class="line">    LoopCallback m_callback;</span><br><span class="line">    void* m_pContext;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>SampleCppClass.cpp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include "SampleCppClass.h"</span></span><br><span class="line"></span><br><span class="line">SampleCppClass::SampleCppClass(void)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SampleCppClass::~SampleCppClass(void)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SampleCppClass::SetCallbackFunc(LoopCallback callback)</span><br><span class="line">&#123;</span><br><span class="line">    m_callback = callback;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SampleCppClass::SetCallbackContext(void* pContext)</span><br><span class="line">&#123;</span><br><span class="line">    m_pContext = pContext;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SampleCppClass::Loop()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (int i=0; i&lt;10; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (m_callback != NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            m_callback(m_pContext);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们通过C++再写一个类库进行封装，把类中的方法暴露出来：<br>SampleCppWrapper.h<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pragma once</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include "..\SampleCppClass\SampleCppClass.h"</span></span><br><span class="line"></span><br><span class="line">namespace SampleCppWrapper</span><br><span class="line">&#123;</span><br><span class="line">    typedef void (__stdcall *LoopCallbackWrapper)(void* pContext);</span><br><span class="line"></span><br><span class="line">    extern <span class="string">"C"</span> __declspec(dllexport) void __stdcall SetCallbackFunc(LoopCallbackWrapper callback);</span><br><span class="line">    extern <span class="string">"C"</span> __declspec(dllexport) void __stdcall SetCallbackContext(void* pContext);</span><br><span class="line">    extern <span class="string">"C"</span> __declspec(dllexport) void __stdcall Loop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>SampleCppWrapper.cpp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include "SampleCppWrapper.h"</span></span><br><span class="line"></span><br><span class="line">namespace SampleCppWrapper</span><br><span class="line">&#123;</span><br><span class="line">    LoopCallbackWrapper g_callbackWrapper;</span><br><span class="line">    SampleCppClass* g_pObj = new SampleCppClass();</span><br><span class="line"></span><br><span class="line">    void LoopCallbackFunc(void* pContext);</span><br><span class="line"></span><br><span class="line">    void __stdcall SetCallbackFunc(LoopCallbackWrapper callback)</span><br><span class="line">    &#123;</span><br><span class="line">        g_callbackWrapper = callback;</span><br><span class="line">        g_pObj-&gt;SetCallbackFunc(LoopCallbackFunc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void __stdcall SetCallbackContext(void* pContext)</span><br><span class="line">    &#123;    </span><br><span class="line">        g_pObj-&gt;SetCallbackContext(pContext);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void __stdcall Loop()</span><br><span class="line">    &#123;</span><br><span class="line">        g_pObj-&gt;Loop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void LoopCallbackFunc(void* pContext)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (g_callbackWrapper != NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            g_callbackWrapper(pContext);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后，在C#中进行调用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line">using System.Windows.Forms;</span><br><span class="line"></span><br><span class="line">namespace SampleCsTest</span><br><span class="line">&#123;</span><br><span class="line">    public partial class Form1 : Form</span><br><span class="line">    &#123;</span><br><span class="line">        [StructLayout(LayoutKind.Sequential)]</span><br><span class="line">        private class Context</span><br><span class="line">        &#123;</span><br><span class="line">            public Form1 Form &#123; get; <span class="built_in">set</span>; &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private delegate void LoopCallbackHandler(IntPtr pContext);</span><br><span class="line">        private static LoopCallbackHandler callback = LoopCallback;</span><br><span class="line"></span><br><span class="line">        [DllImport(<span class="string">"SampleCppWrapper.dll"</span>)]</span><br><span class="line">        private static extern void SetCallbackFunc(LoopCallbackHandler callback);</span><br><span class="line">        [DllImport(<span class="string">"SampleCppWrapper.dll"</span>)]</span><br><span class="line">        private static extern void SetCallbackContext(IntPtr pContext);</span><br><span class="line">        [DllImport(<span class="string">"SampleCppWrapper.dll"</span>)]</span><br><span class="line">        private static extern void Loop();</span><br><span class="line"></span><br><span class="line">        private Context ctx = new Context();</span><br><span class="line"></span><br><span class="line">        public Form1()</span><br><span class="line">        &#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private void Form1_Load(object sender, EventArgs e)</span><br><span class="line">        &#123;</span><br><span class="line">            SetCallbackFunc(callback);</span><br><span class="line">            ctx.Form = this;</span><br><span class="line">            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(ctx));</span><br><span class="line">            Marshal.StructureToPtr(ctx, ptr, <span class="literal">false</span>);</span><br><span class="line">            SetCallbackContext(ptr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private void button1_Click(object sender, EventArgs e)</span><br><span class="line">        &#123;</span><br><span class="line">            Loop();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private static void LoopCallback(IntPtr pContext)</span><br><span class="line">        &#123;</span><br><span class="line">            Context ctx = (Context)Marshal.PtrToStructure(pContext, typeof(Context));</span><br><span class="line">            ctx.Form.textBox1.Text += <span class="string">"callback"</span> + Environment.NewLine;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接调用C-类库中的公共方法"><span class="toc-text">直接调用C++类库中的公共方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用C-类库中的类的方法"><span class="toc-text">调用C++类库中的类的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用C-类库中的回调函数"><span class="toc-text">使用C++类库中的回调函数</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2018/10/11/hello-world/" class="next">下一篇 Hello World &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+      <div id="disqus_thread"></div>
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Bruce using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  <div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//true.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="/head.jpg">
+    <p id="description">小红花的随时记录成长</p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/huigu?tab=repositories">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://user.qzone.qq.com/499764980">
+        
+          QQ
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/wang-liang-hui-gu/activities">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://weibo.com/6415159763/profile?topnav=1&wvr=6&is_all=1">
+        
+          <i class="icon iconfont weibo">&#xe602;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+  <script>
+if(isTriggerAnalytics) {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?49078031960de653377c077a78e9b98e";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+}
+</script>
+
+
+
+  <script>
+if(isTriggerAnalytics) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'true', 'auto');
+  ga('send', 'pageview');
+}
+
+</script>
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
