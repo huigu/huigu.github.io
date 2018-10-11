@@ -1,7 +1,8 @@
 body {
   background-color: #34495e;
   margin: 0px;
-  font-family: FZKaTong-M19S, Lato, "Microsoft Jhenghei", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: '�����Ʋ�_GBK', 'Microsoft YaHei', Lato, "Microsoft Jhenghei", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  src: url("fonts/4089_�����Ʋ�_GBK.ttf");
   font-size: 18px;
 }
 @media (max-width: 860px) {
