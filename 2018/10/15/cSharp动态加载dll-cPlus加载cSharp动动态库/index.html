@@ -16,9 +16,9 @@
   
   
   
-    <meta name="description" content="C#生成类库1234567891011121314151617181920using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;namespace TestClass&#123;    public class Class1 ...">
+    <meta name="description" content="C#新建类库123456789101112131415161718192021using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;namespace ClassLibrary1&#123;    public class C...">
   
-  <title>C++调用c#类库 [ 烟斗上的小红花 ]</title>
+  <title>cSharp动态加载dll/cPlus加载cSharp动动态库 [ 烟斗上的小红花 ]</title>
   
   
     <link rel="shortcut icon" href="huigu.github.io/favicon.ico">
@@ -38,21 +38,21 @@
 <div class="side-navigate hide-area">
   
     <div class="item prev">
-      <a href="huigu.github.io/2018/10/11/cSharp调用C-类库的几种方式/">
+      <a href="huigu.github.io/2018/10/15/hello-world/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        cSharp调用C++类库的几种方式
+        Hello World
       </div>
     </div>
   
   
     <div class="item next">
-      <a href="huigu.github.io/2018/10/11/如何修改hexo主题字体/">
+      <a href="huigu.github.io/2018/10/11/cSharp调用C-类库的几种方式/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        如何修改hexo主题字体
+        cSharp调用C++类库的几种方式
       </div>
     </div>
   
@@ -127,9 +127,9 @@
       
       
   <article id="post">
-    <h1>C++调用c#类库</h1>
+    <h1>cSharp动态加载dll/cPlus加载cSharp动动态库</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">撰写于 2018-10-11</span>
+      <span id = "post-title-date">撰写于 2018-10-15</span>
       
         <span id = "post-title-updated">修改于 2018-10-15</span>
       
@@ -162,10 +162,10 @@
       
     </p>
     
-    <h2 id="C-生成类库"><a href="#C-生成类库" class="headerlink" title="C#生成类库"></a>C#生成类库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace TestClass</span><br><span class="line">&#123;</span><br><span class="line">    public class Class1</span><br><span class="line">    &#123;</span><br><span class="line">        public int Design(int a)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> a + 2;</span><br><span class="line">        &#125;</span><br><span class="line">        public string Run(string str)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> str + <span class="string">"Run"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="C-属性设置"><a href="#C-属性设置" class="headerlink" title="C++属性设置"></a>C++属性设置</h2><p>.Net框架需要和c#类库匹配<br><img src="/images/c++属性设置.png" alt=""></p>
-<h2 id="C-调用"><a href="#C-调用" class="headerlink" title="C++ 调用"></a>C++ 调用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#using "C:\Users\huigu\source\repos\cPlusSer\TestClass\bin\Debug\TestClass.dll"</span></span><br><span class="line">using namespace TestClass;</span><br><span class="line">using namespace std;</span><br><span class="line">using namespace System;</span><br><span class="line">using namespace System::Runtime::InteropServices;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	TestClass::Class1 cla1;</span><br><span class="line">	int a = cla1.Design(3);</span><br><span class="line">	System::String^ b = cla1.Run(<span class="string">"str"</span>);</span><br><span class="line">	using namespace Runtime::InteropServices;</span><br><span class="line">	const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(b)).ToPointer();</span><br><span class="line">	std::string cliToStd = chars;</span><br><span class="line">	cout&lt;&lt;a&lt;&lt;endl;</span><br><span class="line">	cout&lt;&lt;cliToStd&lt;&lt;endl;</span><br><span class="line">		<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="结果显示"><a href="#结果显示" class="headerlink" title="结果显示"></a>结果显示</h2><p>5 strRun</p>
+    <h2 id="C-新建类库"><a href="#C-新建类库" class="headerlink" title="C#新建类库"></a>C#新建类库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace ClassLibrary1</span><br><span class="line">&#123;</span><br><span class="line">    public class Class1</span><br><span class="line">    &#123;</span><br><span class="line">        public int AddClass1(int a, int b)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> a + b;</span><br><span class="line">        &#125;</span><br><span class="line">        public int Max(int a,int b)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">return</span> 3;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="C-动态加载dll库"><a href="#C-动态加载dll库" class="headerlink" title="C#动态加载dll库"></a>C#动态加载dll库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using System.Reflection;</span><br><span class="line">namespace InvokeClass</span><br><span class="line">&#123;</span><br><span class="line">    public class InvokeC</span><br><span class="line">    &#123;</span><br><span class="line">        public InvokeC(string filePath, string className, string methodName, object[] parments, out object returnValue)</span><br><span class="line">        &#123;</span><br><span class="line">            Assembly ass = Assembly.LoadFile(filePath);//我们要调用的dll或exe文件路径</span><br><span class="line">            Type tp = ass.GetType(className);  //获取类名，必须 命名空间+类名</span><br><span class="line">            Object obj = Activator.CreateInstance(tp);  //建立实例</span><br><span class="line">            MethodInfo meth = tp.GetMethod(methodName);  //获取要调用的方法</span><br><span class="line">            returnValue = meth.Invoke(obj, parments);//Invoke调用方法,<span class="string">"&#123;&#125;"</span>里为方法需要的参数</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="C-通过CLR调用c-动态库"><a href="#C-通过CLR调用c-动态库" class="headerlink" title="C++通过CLR调用c#动态库"></a>C++通过CLR调用c#动态库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#using "C:\Users\huigu\source\repos\cPlusSer\Debug\InvokeClass.dll"</span></span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using namespace System;</span><br><span class="line">using namespace System::Runtime::InteropServices;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	//c++调用c<span class="comment">#类库</span></span><br><span class="line">	System::String^ filePath = <span class="string">"C:\\Users\\huigu\\source\\repos\\cPlusSer\\Debug\\ClassLibrary1.dll"</span>;</span><br><span class="line">	System::String^ className = <span class="string">"Class1"</span>;</span><br><span class="line">	System::String^ methodName = <span class="string">"Max"</span>;</span><br><span class="line">	cli::array&lt;System::Object^,1&gt;^ parments = &#123; 1,2 &#125;;</span><br><span class="line">	System::Object^ returnValue;</span><br><span class="line">	InvokeClass::InvokeC cla1(filePath, className, methodName, parments, returnValue);</span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果为returnValue=3.</p>
 
   </article>
   <div class="random-toc-area">
@@ -173,20 +173,20 @@
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
   <div class="random-toc">
     <h2>目录</h2>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-生成类库"><span class="toc-text">C#生成类库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-属性设置"><span class="toc-text">C++属性设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-调用"><span class="toc-text">C++ 调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果显示"><span class="toc-text">结果显示</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-新建类库"><span class="toc-text">C#新建类库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-动态加载dll库"><span class="toc-text">C#动态加载dll库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-通过CLR调用c-动态库"><span class="toc-text">C++通过CLR调用c#动态库</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="huigu.github.io/2018/10/11/cSharp调用C-类库的几种方式/" class="prev">&larr; 上一篇 cSharp调用C++类库的几种方式</a>
+    <a href="huigu.github.io/2018/10/15/hello-world/" class="prev">&larr; 上一篇 Hello World</a>
   
 
   
 
   
-    <a href="huigu.github.io/2018/10/11/如何修改hexo主题字体/" class="next">下一篇 如何修改hexo主题字体 &rarr;</a>
+    <a href="huigu.github.io/2018/10/11/cSharp调用C-类库的几种方式/" class="next">下一篇 cSharp调用C++类库的几种方式 &rarr;</a>
   
 </nav>
 
