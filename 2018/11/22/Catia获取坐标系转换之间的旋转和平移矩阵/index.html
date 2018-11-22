@@ -2,8 +2,6 @@
 
 
 
-  
-
 
 
 
@@ -18,9 +16,10 @@
   
   
   
-    <meta name="description" content="小红花的随时记录成长">
+    <meta name="description" content="##Catia二次开发
+Catia软件对于二次开发提供了VB和C#接口的自动化开发以及更为深入的CAA的C++开发。经过不断摸索，vb和c#的自动化开发可以满足基本的开发需求；虽然CAA可以更好的满足开发，但是开发难度过于复杂，所以选用自动化开发。 前期自动化开发采用c#语言，较为简单，但后期发现C#开发存在Bug,Catia提供的接口不能有效  调用，反而用vb开发可以有效调用， 所以用v...">
   
-  <title>分类: 文学 [ 烟斗上的小红花 ]</title>
+  <title>Catia获取坐标系转换之间的旋转和平移矩阵 [ 烟斗上的小红花 ]</title>
   
   
     <link rel="shortcut icon" href="/favicon.ico">
@@ -39,6 +38,15 @@
 <body>
 <div class="side-navigate hide-area">
   
+  
+    <div class="item next">
+      <a href="/2018/11/01/Critique2/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Critique2
+      </div>
+    </div>
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -78,7 +86,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/categories">分类</a>
             
@@ -110,175 +118,70 @@
     <div id="content-inner">
       
       
-  <article id="page">
-    
+  <article id="post">
+    <h1>Catia获取坐标系转换之间的旋转和平移矩阵</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">撰写于 2018-11-22</span>
       
-    
+        <span id = "post-title-updated">修改于 2018-11-22</span>
       
-    
       
-    
-      
-        <h1 class="center-title">
-          分类
-          
-        </h1>
-      
-    
-    <ul class="category-list">
-      
-        <li class="category-list-item">
-        
-          <a href="/categories/编程/">编程</a>
-        
-          <span class="category-list-count">4</span>
-        </li>
-      
-        <li class="category-list-item">
-        
-          <a href="/categories/English-Writing/">English Writing</a>
-        
-          <span class="category-list-count">6</span>
-        </li>
-      
-        <li class="category-list-item">
-        
-          <a href="/categories/Hexo教程系列/">Hexo教程系列</a>
-        
-          <span class="category-list-count">1</span>
-        </li>
-      
-        <li class="category-list-item">
-        
-          <a class="active" href="/categories/文学/">文学</a>
-        
-          <span class="category-list-count">1</span>
-        </li>
-      
-    </ul>
-    
+      <span id = "post-title-categories">分类
       
       
         
+        
+        <a href="/categories/编程/">编程</a>
+      
+      </span>
       
       
-    
+      <span id = "post-title-tags">
+      标签
       
       
         
-      
-      
-    
-      
-      
         
+        <a href="/tags/VB/">VB</a>
       
+      </span>
       
+    </p>
     
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-      
-      
-    
-      
-      
-        
-          
-        
-      
-      
-      <div class="post-title-item">
-  
-  <a href="/2018/10/28/《人生的智慧》-读后感/">
-  
-    《人生的智慧》———读后感
-  
-  </a>
-  <p class="page-title-sub">
-    <span id = "post-title-date">10-28</span>
-    
-    <span id = "post-title-categories">分类
-    
-    
-      
-      
-      <a href="/categories/文学/">文学</a>
-    
-    </span>
-    
-    
-    <span id = "post-title-tags">
-    标签
-    
-    
-      
-      
-      <a href="/tags/读后感/">读后感</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-      
-    
-      
-      
-      
-    
+    <p>##Catia二次开发</p>
+<p>Catia软件对于二次开发提供了VB和C#接口的自动化开发以及更为深入的CAA的C++开发。<br>经过不断摸索，vb和c#的自动化开发可以满足基本的开发需求；虽然CAA可以更好的满足开发，但是<br>开发难度过于复杂，所以选用自动化开发。<br> 前期自动化开发采用c#语言，较为简单，但后期发现C#开发存在Bug,Catia提供的接口不能有效<br>  调用，反而用vb开发可以有效调用， 所以用vb开发更为简单、有效。</p>
+<p>  ##Catia 坐标系之间的关系<br>  Catia内部关系用document来代表实体文件，product和part代表的是模型，所以以CATPart结尾<br> 的文件对应模型也有可能是product。对于模型内部移动采用move方法，对move应用一个大小为12的<br>一维数组，前九个是旋转矩阵，后三个是三个轴方向的平移。<br>对于在product中part的坐标系转换后所用的矩阵，可以通过product下的products.item（i）.position的方法来<br> 获取。<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Public Function GetPosition(ByVal product As Product,ByRef position As Array)</span><br><span class="line">Dim positon1(11)</span><br><span class="line">product.Position.GetComponents position1</span><br><span class="line">position=position1</span><br><span class="line">End Function</span><br></pre></td></tr></table></figure></p>
+<p> ##PS:vb获取Catia实例用<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CATIA=CreateObject(<span class="string">"CATIA.Application"</span>)</span><br></pre></td></tr></table></figure></p>
+
   </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">显示目录</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">隐藏目录</button>
+  <div class="random-toc">
+    <h2>目录</h2>
+    
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
 
   
 
+  
+    <a href="/2018/11/01/Critique2/" class="next">下一篇 Critique2 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
       
+      
+      <div id="disqus_thread"></div>
       
     </div>
   </div>
@@ -294,6 +197,29 @@
 </div>
 
 </div>
+
+  <div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//true.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
 <div id="user-card">
@@ -428,6 +354,8 @@ var unsplashConfig = {"gravity":"north"};
 var turnoffBackgroundImage = false;
 
 
+
+  turnoffBackgroundImage = true;
 
 
 var backgroundColor = "34495E";
